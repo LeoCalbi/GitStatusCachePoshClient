@@ -1,65 +1,32 @@
-# git-status-cache-posh-client #
+# GitStatusPoshClient
 
-PowerShell client for retrieving git repository information from [git-status-cache](https://github.com/cmarcusreid/git-status-cache). Communicates with the cache process via named pipe. 
+PowerShell Module client for retrieving git repository information from [git-status-cache](https://github.com/cmarcusreid/git-status-cache). Communicates with the cache process via named pipe.
 
-## Setup ##
+## :books: Informations
 
-Run install.ps1 to download GitStatusCache.exe and add the module registration to your $PROFILE. This will make the `Get-GitStatusFromCache` command available.
+A minimal version of [git-status-posh-client](https://github.com/cmarcusreid/git-status-cache-posh-client) without the need for a [Chocolatey](https://chocolatey.org/) installation making full use of Powershell [Module Manifest](https://docs.microsoft.com/en-us/powershell/scripting/developer/module/how-to-write-a-powershell-module-manifest).
+This module allows [posh-git](https://github.com/dahlbyk/posh-git) Module to access and cache git repositories status for a seamless use and without the need for any user to change anything because they are already integrated in posh-git.
 
-	D:\git-status-cache-posh-client [master +1 ~0 -0 !]> Get-Module GitStatusCachePoshClient
 
-	ModuleType Version    Name                                ExportedCommands
-	---------- -------    ----                                ----------------
-	Script     0.0        GitStatusCachePoshClient            {Get-GitStatusCacheStatistics, Get-GitStatusFromCache, Restart-GitStatusCache}
+## :tada: Installation
 
-### Chocolatey package ###
+### With my Dotfiles
 
-Alternatively git-status-cache-posh-client can be installed via chocolatey.
+The complete use of this module alongside others is managed by my personal [Dotfile configuration](https://github.com/LeoCalbi/dotfiles) managed with [Chezmoi](https://www.chezmoi.io/).
 
-	choco install git-status-cache-posh-client
+### With git
 
-##Usage##
+Execute:
 
-Sample output:
-	
-	D:\git-status-cache-posh-client [master +0 ~1 -0]> Get-GitStatusFromCache
-	
-	Version           : 1
-	Path              : D:\git-status-cache-posh-client
-	RepoPath          : D:/git-status-cache-posh-client/.git/
-	WorkingDir        : D:/git-status-cache-posh-client/
-	State             :
-	Branch            : master
-	Upstream          : origin/master
-	AheadBy           : 0
-	BehindBy          : 0
-	IndexAdded        : {}
-	IndexModified     : {README.md}
-	IndexDeleted      : {}
-	IndexTypeChange   : {}
-	IndexRenamed      : {}
-	WorkingAdded      : {}
-	WorkingModified   : {}
-	WorkingDeleted    : {}
-	WorkingTypeChange : {}
-	WorkingRenamed    : {}
-	WorkingUnreadable : {}
-	Ignored           : {}
-	Conflicted        : {}
-	
-	
-	D:\git-status-cache-posh-client [master +0 ~1 -0]> Get-GitStatusCacheStatistics
-	
-	Version                        : 1
-	Uptime                         : 00:05:11
-	TotalGetStatusRequests         : 85
-	AverageMillisecondsInGetStatus : 0.572932
-	MinimumMillisecondsInGetStatus : 0.248636
-	MaximumMillisecondsInGetStatus : 4.204662
-	CacheHits                      : 75
-	CacheMisses                    : 10
-	EffectiveCachePrimes           : 1
-	TotalCachePrimes               : 7
-	EffectiveCacheInvalidations    : 10
-	TotalCacheInvalidations        : 77
-	FullCacheInvalidations         : 0
+```powershell
+git clone https://github.com/LeoCalbi/GitStatusPoshClient.git
+$ModuleFolder = ($Env:PSModulePath | Split-String -Separator ";")[0]
+Move-Item -Path GitStatusPoshClient\GitStatusPoshClient -Destination $ModuleFolder
+Remove-Variable -Name "ModuleFolder"
+```
+
+Then add to your Powershell Profile (Path at `$Profile`):
+
+```powershell
+Import-Module MyUtilities
+```
